@@ -45,11 +45,23 @@ const Index = () => {
           Log out
         </p>
       </div>
-      <div>
-        <Link href={'/example'}>
-          <a>Another example page</a>
-        </Link>
-      </div>
+      <ul>
+        <li>
+          <Link href={'/csr'}>
+            <a>CSR</a>
+          </Link>
+        </li>
+        <li>
+          <Link href={'/ssg'}>
+            <a>SSG</a>
+          </Link>
+        </li>
+        <li>
+          <Link href={'/ssr'}>
+            <a>SSR</a>
+          </Link>
+        </li>
+      </ul>
       {error && <div>Failed to fetch food!</div>}
       {data ? (
         <div>Your favorite food is {data.food}.</div>
