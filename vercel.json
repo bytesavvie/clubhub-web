@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "functions": {
+    "pages/**": {
+      "memory": 128
+    }
+  },
+  "trailingSlash": false,
+  "version": 2
+}
