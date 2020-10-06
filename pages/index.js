@@ -1,7 +1,7 @@
+import { useStyletron } from 'baseui';
 import { DatePicker } from 'baseui/datepicker';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { useStyletron } from 'styletron-react';
 import useSWR from 'swr';
 
 import { useUser } from '../utils/auth/use-user';
@@ -19,7 +19,7 @@ const fetcher = async (url, token) => {
 const Index = () => {
   const { user, logout } = useUser();
   const { data, error } = useSWR(
-    user ? ['/api/getFood', user.token] : null,
+    user ? ['/api/get-food', user.token] : null,
     fetcher
   );
   const [css] = useStyletron();
@@ -78,6 +78,11 @@ const Index = () => {
       ) : (
         <div>Loading...</div>
       )}
+
+      {new Array(100).fill().map((_, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <p key={index}>{index}</p>
+      ))}
     </div>
   );
 };
