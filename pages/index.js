@@ -65,6 +65,9 @@ const Index = () => {
         <li>
           <Link href="/ssr">SSR</Link>
         </li>
+        <li>
+          <Link href="/club/create">Create Club</Link>
+        </li>
       </ul>
 
       <DatePicker
