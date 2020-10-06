@@ -2,9 +2,12 @@
   "name": "clubhub-web",
   "version": "0.0.0",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "dev": "next dev",
+    "format": "xo --fix",
+    "start": "next start",
+    "test": "npm run test:lint",
+    "test:lint": "xo"
   },
   "dependencies": {
     "baseui": "^9.102.0",
@@ -23,6 +26,42 @@
     "@types/styletron-engine-atomic": "^1.1.0",
     "@types/styletron-react": "^5.0.2",
     "@types/styletron-standard": "^2.0.1",
-    "eslint-plugin-baseui": "^9.102.0"
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-baseui": "^9.102.0",
+    "eslint-plugin-functional": "^3.0.2",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.3",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "xo": "^0.33.1"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "xo": {
+    "prettier": true,
+    "space": true,
+    "envs": [
+      "browser",
+      "es2020",
+      "node"
+    ],
+    "extends": [
+      "xo-react",
+      "plugin:functional/external-recommended",
+      "plugin:functional/lite",
+      "plugin:jsx-a11y/recommended",
+      "plugin:baseui/recommended"
+    ],
+    "plugins": [
+      "functional"
+    ],
+    "rules": {
+      "react/prop-types": 0,
+      "unicorn/no-reduce": 0
+    }
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "trailingComma": "es5"
   }
 }
