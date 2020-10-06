@@ -1,5 +1,4 @@
 import firebase from 'firebase/app';
-import cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -7,6 +6,12 @@ import { useEffect, useState } from 'react';
 import 'firebase/auth';
 
 import initFirebase from './init-firebase';
+import { mapUserData } from './map-user-data';
+import {
+  removeUserCookie,
+  setUserCookie,
+  getUserFromCookie,
+} from './user-cookies';
 
 initFirebase();
 
@@ -21,9 +26,6 @@ const useUser = () => {
         .signOut()
         // eslint-disable-next-line promise/prefer-await-to-then
         .then(() => {
-          // Sign-out successful.
-          cookies.remove('auth');
-          setUser();
           // eslint-disable-next-line functional/immutable-data
           router.push('/auth');
         })
@@ -33,17 +35,39 @@ const useUser = () => {
     );
   };
 
-  useEffect(() => {
-    const cookie = cookies.get('auth');
-    if (!cookie) {
-      // eslint-disable-next-line functional/immutable-data
-      router.push('/');
-      return;
-    }
+  useEffect(
+    () => {
+      // Firebase updates the id token every hour, this
+      // makes sure the react state and the cookie are
+      // both kept up to date
+      const cancelAuthListener = firebase.auth().onIdTokenChanged((user) => {
+        if (user) {
+          const userData = mapUserData(user);
+          setUserCookie(userData);
+          setUser(userData);
+        } else {
+          removeUserCookie();
+          setUser();
+        }
+      });
 
-    setUser(JSON.parse(cookie));
+      const userFromCookie = getUserFromCookie();
+
+      if (!userFromCookie) {
+        // eslint-disable-next-line functional/immutable-data
+        router.push('/');
+        return;
+      }
+
+      setUser(userFromCookie);
+
+      return () => {
+        cancelAuthListener();
+      };
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    []
+  );
 
   return { user, logout };
 };

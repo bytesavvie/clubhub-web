@@ -1,5 +1,4 @@
 import firebase from 'firebase/app';
-import cookie from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
@@ -7,6 +6,8 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import 'firebase/auth';
 
 import initFirebase from '../utils/auth/init-firebase';
+import { mapUserData } from '../utils/auth/map-user-data';
+import { setUserCookie } from '../utils/auth/user-cookies';
 
 // Init the Firebase app.
 initFirebase();
@@ -25,17 +26,8 @@ const firebaseAuthConfig = {
   credentialHelper: 'none',
   callbacks: {
     signInSuccessWithAuthResult: async ({ user }, _redirectUrl) => {
-      // Xa is the access token, which can be retrieved through
-      // firebase.auth().currentUser.getIdToken()
-      const { uid, email, xa } = user;
-      const userData = {
-        id: uid,
-        email,
-        token: xa,
-      };
-      cookie.set('auth', userData, {
-        expires: 1,
-      });
+      const userData = mapUserData(user);
+      setUserCookie(userData);
     },
   },
 };
