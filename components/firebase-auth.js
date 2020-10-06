@@ -1,13 +1,15 @@
-/* globals window */
-import { useEffect, useState } from 'react'
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import cookie from 'js-cookie'
-import initFirebase from '../utils/auth/initFirebase'
+import firebase from 'firebase/app';
+import cookie from 'js-cookie';
+import React, { useEffect, useState } from 'react';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
+// eslint-disable-next-line import/no-unassigned-import
+import 'firebase/auth';
+
+import initFirebase from '../utils/auth/init-firebase';
 
 // Init the Firebase app.
-initFirebase()
+initFirebase();
 
 const firebaseAuthConfig = {
   signInFlow: 'popup',
@@ -22,31 +24,31 @@ const firebaseAuthConfig = {
   signInSuccessUrl: '/',
   credentialHelper: 'none',
   callbacks: {
-    signInSuccessWithAuthResult: async ({ user }, redirectUrl) => {
-      // xa is the access token, which can be retrieved through
+    signInSuccessWithAuthResult: async ({ user }, _redirectUrl) => {
+      // Xa is the access token, which can be retrieved through
       // firebase.auth().currentUser.getIdToken()
-      const { uid, email, xa } = user
+      const { uid, email, xa } = user;
       const userData = {
         id: uid,
         email,
         token: xa,
-      }
+      };
       cookie.set('auth', userData, {
         expires: 1,
-      })
+      });
     },
   },
-}
+};
 
 const FirebaseAuth = () => {
   // Do not SSR FirebaseUI, because it is not supported.
   // https://github.com/firebase/firebaseui-web/issues/213
-  const [renderAuth, setRenderAuth] = useState(false)
+  const [renderAuth, setRenderAuth] = useState(false);
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setRenderAuth(true)
+      setRenderAuth(true);
     }
-  }, [])
+  }, []);
   return (
     <div>
       {renderAuth ? (
@@ -56,7 +58,7 @@ const FirebaseAuth = () => {
         />
       ) : null}
     </div>
-  )
-}
+  );
+};
 
-export default FirebaseAuth
+export default FirebaseAuth;

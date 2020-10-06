@@ -1,14 +1,15 @@
-import { Provider as StyletronProvider } from 'styletron-react'
-import { LightTheme, BaseProvider } from 'baseui'
+import { LightTheme, BaseProvider } from 'baseui';
+import React from 'react';
+import { Provider as StyletronProvider } from 'styletron-react';
 
-import { styletron, debug } from '../styletron'
+import { styletron, debug } from '../styletron';
 
 const MyApp = ({ Component, pageProps }) => (
-  <StyletronProvider value={styletron} debug={debug} debugAfterHydration>
+  <StyletronProvider debugAfterHydration value={styletron} debug={debug}>
     <BaseProvider theme={LightTheme}>
       <Component {...pageProps} />
     </BaseProvider>
   </StyletronProvider>
-)
+);
 
-export default MyApp
+export default MyApp;
