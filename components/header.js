@@ -5,10 +5,9 @@ import {
   StyledNavigationList,
   StyledNavigationItem,
 } from 'baseui/header-navigation';
-import { StyledLink } from 'baseui/link';
-import Link from 'next/link';
 import React from 'react';
 
+import Link from './link';
 import { useUser } from '../utilities/auth/use-user';
 
 const Header = () => {
@@ -17,15 +16,14 @@ const Header = () => {
   return (
     <HeaderNavigation>
       <StyledNavigationList $align={ALIGN.left}>
-        <StyledNavigationItem>ClubHub</StyledNavigationItem>
+        <StyledNavigationItem>
+          <Link href="/">ClubHub</Link>
+        </StyledNavigationItem>
       </StyledNavigationList>
       <StyledNavigationList $align={ALIGN.center} />
       <StyledNavigationList $align={ALIGN.right}>
         <StyledNavigationItem>
-          <StyledLink href="#basic-link1">Tab Link One</StyledLink>
-        </StyledNavigationItem>
-        <StyledNavigationItem>
-          <StyledLink href="#basic-link2">Tab Link Two</StyledLink>
+          <Link href="/club/create">Create Club</Link>
         </StyledNavigationItem>
       </StyledNavigationList>
       <StyledNavigationList $align={ALIGN.right}>
@@ -33,7 +31,7 @@ const Header = () => {
           {user ? (
             <Button onClick={() => logout()}>Logout</Button>
           ) : (
-            <Link href="/auth">
+            <Link unstyled href="/auth">
               <Button>Login</Button>
             </Link>
           )}

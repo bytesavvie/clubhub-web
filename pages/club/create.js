@@ -5,9 +5,10 @@ import { Heading } from 'baseui/heading';
 import { Input } from 'baseui/input';
 import { Notification, KIND } from 'baseui/notification';
 import { Textarea } from 'baseui/textarea';
-import Link from 'next/link';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+
+import Link from '../../components/link';
 
 const CreateClub = () => {
   const [createClub, { data, error, loading }] = useMutation(gql`

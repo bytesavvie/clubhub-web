@@ -1,8 +1,8 @@
 import { useStyletron } from 'baseui';
 import { DatePicker } from 'baseui/datepicker';
-import Link from 'next/link';
 import React, { useState } from 'react';
 
+import Link from '../components/link';
 import { useUser } from '../utilities/auth/use-user';
 
 const Index = () => {

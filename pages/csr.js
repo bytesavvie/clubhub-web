@@ -1,6 +1,7 @@
-import Link from 'next/link';
 import React from 'react';
 import useSWR from 'swr';
+
+import Link from '../components/link';
 
 const CSR = () => {
   const { data, error } = useSWR('https://icanhazdadjoke.com/', async (url) => {
