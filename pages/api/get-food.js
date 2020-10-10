@@ -1,4 +1,4 @@
-import { verifyIdToken } from '../../utils/auth/firebase-admin';
+import { verifyIdToken } from '../../utilities/auth/firebase-admin';
 
 const favoriteFoods = ['pizza', 'burger', 'chips', 'tortilla'];
 

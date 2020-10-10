@@ -9,11 +9,10 @@ import { StyledLink } from 'baseui/link';
 import Link from 'next/link';
 import React from 'react';
 
-import { useUser } from '../utils/auth/use-user';
+import { useUser } from '../utilities/auth/use-user';
 
 const Header = () => {
   const { user, logout } = useUser();
-  console.log(user);
 
   return (
     <HeaderNavigation>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import useSWR from 'swr';
 
-import { useUser } from '../utils/auth/use-user';
+import { useUser } from '../utilities/auth/use-user';
 
 const fetcher = async (url, token) => {
   const response = await fetch(url, {

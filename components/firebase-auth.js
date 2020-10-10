@@ -5,9 +5,9 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 // eslint-disable-next-line import/no-unassigned-import
 import 'firebase/auth';
 
-import initFirebase from '../utils/auth/init-firebase';
-import { mapUserData } from '../utils/auth/map-user-data';
-import { setUserCookie } from '../utils/auth/user-cookies';
+import initFirebase from '../utilities/auth/init-firebase';
+import { mapUserData } from '../utilities/auth/map-user-data';
+import { setUserCookie } from '../utilities/auth/user-cookies';
 
 // Init the Firebase app.
 initFirebase();
