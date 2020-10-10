@@ -2,26 +2,11 @@ import { useStyletron } from 'baseui';
 import { DatePicker } from 'baseui/datepicker';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import useSWR from 'swr';
 
 import { useUser } from '../utilities/auth/use-user';
 
-const fetcher = async (url, token) => {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: new Headers({ 'Content-Type': 'application/json', token }),
-    credentials: 'same-origin',
-  });
-
-  return response.json();
-};
-
 const Index = () => {
   const { user, logout } = useUser();
-  const { data, error } = useSWR(
-    user ? ['/api/get-food', user.token] : null,
-    fetcher
-  );
   const [css] = useStyletron();
   const [value, setValue] = useState([new Date()]);
 
@@ -74,13 +59,6 @@ const Index = () => {
         value={value}
         onChange={({ date }) => setValue(Array.isArray(date) ? date : [date])}
       />
-
-      {error && <div>Failed to fetch food!</div>}
-      {data ? (
-        <div>Your favorite food is {data.food}.</div>
-      ) : (
-        <div>Loading...</div>
-      )}
 
       {new Array(100).fill().map((_, index) => (
         // eslint-disable-next-line react/no-array-index-key
