@@ -1,14 +1,14 @@
 import { useStyletron } from 'baseui';
-import { DatePicker } from 'baseui/datepicker';
-import React, { useState } from 'react';
+import React from 'react';
 
+import ClubsList, { CLUBS_QUERY } from '../components/club-list';
 import Link from '../components/link';
+import { initializeApollo } from '../utilities/apollo-client';
 import { useUser } from '../utilities/auth/use-user';
 
 const Index = () => {
   const { user, logout } = useUser();
   const [css] = useStyletron();
-  const [value, setValue] = useState([new Date()]);
 
   if (!user) {
     return (
@@ -55,17 +55,21 @@ const Index = () => {
         </li>
       </ul>
 
-      <DatePicker
-        value={value}
-        onChange={({ date }) => setValue(Array.isArray(date) ? date : [date])}
-      />
-
-      {new Array(100).fill().map((_, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <p key={index}>{index}</p>
-      ))}
+      <ClubsList />
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({ query: CLUBS_QUERY });
+
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
+}
 
 export default Index;
