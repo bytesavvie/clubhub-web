@@ -1,26 +1,21 @@
-import { Heading } from 'baseui/heading';
-import { useRouter } from 'next/router';
-import React from 'react';
 import { gql, useQuery } from '@apollo/client';
+import { Heading } from 'baseui/heading';
+import React from 'react';
 
-const Club = () => {
-  const router = useRouter();
-  const { id } = router.query;
+import { initializeApollo } from '../../utilities/apollo-client';
 
-  const { loading, error, data } = useQuery(
-    gql`
-      query GetClub($id: ID!) {
-        club(id: $id) {
-          id
-          name
-          description
-        }
-      }
-    `,
-    {
-      variables: { id },
+const CLUB_QUERY = gql`
+  query GetClub($id: ID!) {
+    club(id: $id) {
+      id
+      name
+      description
     }
-  );
+  }
+`;
+
+const Club = ({ id }) => {
+  const { data, error, loading } = useQuery(CLUB_QUERY, { variables: { id } });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Errored!</p>;
@@ -35,5 +30,21 @@ const Club = () => {
     </>
   );
 };
+
+export async function getServerSideProps({ params: { id } }) {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: CLUB_QUERY,
+    variables: { id },
+  });
+
+  return {
+    props: {
+      id,
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
+}
 
 export default Club;
