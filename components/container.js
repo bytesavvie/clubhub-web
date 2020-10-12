@@ -9,14 +9,15 @@ const Container = ({ children, innerStyle, outerStyle }) => {
       className={css({
         display: 'flex',
         justifyContent: 'center',
-        margin: '0 24px',
         width: '100%',
         ...outerStyle,
       })}
     >
       <div
         className={css({
-          maxWidth: '40em',
+          boxSizing: 'border-box',
+          maxWidth: '1407px',
+          padding: '0 45.5px',
           width: '100%',
           ...innerStyle,
         })}

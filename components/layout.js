@@ -7,7 +7,7 @@ import Header from './header';
 const Layout = ({ children }) => (
   <>
     <Header />
-    <Container>
+    <Container innerStyle={{ backgroundColor: '#fff' }}>
       <HeadingLevel>{children}</HeadingLevel>
     </Container>
   </>

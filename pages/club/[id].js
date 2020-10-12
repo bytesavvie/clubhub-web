@@ -1,10 +1,12 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { Button, KIND as BUTTON_KIND } from 'baseui/button';
+import { gql, useQuery } from '@apollo/client';
 import { Heading } from 'baseui/heading';
-import { Notification, KIND as NOTIFICATION_KIND } from 'baseui/notification';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { Tabs, Tab, FILL } from 'baseui/tabs-motion';
+import React, { useState } from 'react';
 
+import ClubDetails from '../../components/club/details';
+import ClubEvents from '../../components/club/events';
+import ClubSettings from '../../components/club/settings';
+import ClubSocialFeed from '../../components/club/social-feed';
 import { initializeApollo } from '../../utilities/apollo-client';
 
 const CLUB_QUERY = gql`
@@ -18,66 +20,42 @@ const CLUB_QUERY = gql`
 `;
 
 const Club = ({ id }) => {
-  const router = useRouter();
+  const [activeKey, setActiveKey] = useState('0');
   const { data, error, loading } = useQuery(CLUB_QUERY, {
     variables: { id },
   });
-  const [
-    deleteClub,
-    { error: deleteError, loading: deleteLoading },
-  ] = useMutation(
-    gql`
-      mutation DeleteClub($id: ID!) {
-        deleteClub(id: $id) {
-          id
-        }
-      }
-    `,
-    {
-      update(cache) {
-        const success = cache.evict({
-          id: cache.identify({
-            __typename: 'Club',
-            id,
-          }),
-        });
-        cache.gc();
-        if (!success) {
-          console.error(`Error removing club with id "${id}" from cache`);
-        }
-      },
-    }
-  );
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Errored!</p>;
   if (!data?.club) return <p>Not found!</p>;
-
-  const handleDelete = async () => {
-    await deleteClub({ variables: { id } });
-
-    // eslint-disable-next-line functional/immutable-data
-    router.push('/');
-  };
 
   const { club } = data;
 
   return (
     <>
       <Heading>{club.name}</Heading>
-      <div>{club.description}</div>
-      <Button
-        isLoading={deleteLoading}
-        kind={BUTTON_KIND.secondary}
-        onClick={handleDelete}
+
+      <Tabs
+        activateOnFocus
+        activeKey={activeKey}
+        fill={FILL.fixed}
+        onChange={({ activeKey }) => {
+          setActiveKey(activeKey);
+        }}
       >
-        Delete
-      </Button>
-      {deleteError && (
-        <Notification kind={NOTIFICATION_KIND.negative}>
-          Error deleting club: {deleteError.message}
-        </Notification>
-      )}
+        <Tab title="Details">
+          <ClubDetails club={club} />
+        </Tab>
+        <Tab title="Events">
+          <ClubEvents club={club} />
+        </Tab>
+        <Tab title="Social">
+          <ClubSocialFeed club={club} />
+        </Tab>
+        <Tab title="Settings">
+          <ClubSettings club={club} />
+        </Tab>
+      </Tabs>
     </>
   );
 };
