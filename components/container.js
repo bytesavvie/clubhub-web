@@ -9,6 +9,7 @@ const Container = ({ children, innerStyle, outerStyle }) => {
       className={css({
         display: 'flex',
         justifyContent: 'center',
+        margin: '0 24px',
         width: '100%',
         ...outerStyle,
       })}

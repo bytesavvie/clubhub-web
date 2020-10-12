@@ -7,7 +7,7 @@ import { initializeApollo } from '../utilities/apollo-client';
 import { useUser } from '../utilities/auth/use-user';
 
 const Index = () => {
-  const { user, logout } = useUser();
+  const { user } = useUser();
   const [css] = useStyletron();
 
   if (!user) {
@@ -24,21 +24,9 @@ const Index = () => {
   return (
     <div>
       <div>
-        <p className={css({ color: 'blue', fontWeight: 'bold' })}>
+        <p className={css({ fontWeight: 'bold' })}>
           You&apos;re signed in. Email: {user.email}
         </p>
-        <button
-          className={css({
-            display: 'inline-block',
-            color: 'blue',
-            textDecoration: 'underline',
-            cursor: 'pointer',
-          })}
-          type="button"
-          onClick={() => logout()}
-        >
-          Log out
-        </button>
       </div>
       <ul>
         <li>

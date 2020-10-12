@@ -1,4 +1,3 @@
-import { useStyletron } from 'baseui';
 import { Button } from 'baseui/button';
 import {
   HeaderNavigation,
@@ -14,13 +13,12 @@ import { useUser } from '../utilities/auth/use-user';
 
 const Header = () => {
   const { user, logout } = useUser();
-  const [css] = useStyletron();
 
   return (
     <HeaderNavigation>
       <Container innerStyle={{ display: 'flex' }}>
         <StyledNavigationList $align={ALIGN.left}>
-          <StyledNavigationItem className={css({ paddingLeft: 0 })}>
+          <StyledNavigationItem $style={{ paddingLeft: 0 }}>
             <Link href="/">ClubHub</Link>
           </StyledNavigationItem>
         </StyledNavigationList>
