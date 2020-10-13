@@ -8,6 +8,7 @@ export const CLUBS_QUERY = gql`
     clubs {
       id
       name
+      slug
     }
   }
 `;
@@ -25,7 +26,9 @@ const ClubList = () => {
     <ul>
       {clubs.map((club) => (
         <li key={club.id}>
-          <Link href={`/club/${encodeURIComponent(club.id)}`}>{club.name}</Link>
+          <Link href={`/club/${encodeURIComponent(club.slug)}`}>
+            {club.name}
+          </Link>
         </li>
       ))}
     </ul>

@@ -10,19 +10,21 @@ import ClubSocialFeed from '../../components/club/social-feed';
 import { initializeApollo } from '../../utilities/apollo-client';
 
 const CLUB_QUERY = gql`
-  query GetClub($id: ID!) {
-    club(id: $id) {
+  query GetClub($slug: String!) {
+    club(slug: $slug) {
       description
       id
+      location
       name
+      slug
     }
   }
 `;
 
-const Club = ({ id }) => {
+const Club = ({ slug }) => {
   const [activeKey, setActiveKey] = useState('0');
   const { data, error, loading } = useQuery(CLUB_QUERY, {
-    variables: { id },
+    variables: { slug },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -60,17 +62,17 @@ const Club = ({ id }) => {
   );
 };
 
-export async function getServerSideProps({ params: { id } }) {
+export async function getServerSideProps({ params: { slug } }) {
   const apolloClient = initializeApollo();
 
   await apolloClient.query({
     query: CLUB_QUERY,
-    variables: { id },
+    variables: { slug },
   });
 
   return {
     props: {
-      id,
+      slug,
       initialApolloState: apolloClient.cache.extract(),
     },
   };
